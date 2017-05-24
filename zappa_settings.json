@@ -1,0 +1,8 @@
+{
+    "dev": {
+        "aws_region": "ap-northeast-2",
+        "django_settings": "studyprj.settings",
+        "profile_name": "everypython",
+        "s3_bucket": "zappa-stduys3"
+    }
+}

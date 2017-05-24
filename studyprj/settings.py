@@ -15,17 +15,24 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# ini파일 호출
+from configparser import RawConfigParser
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+config = RawConfigParser()
+config.read(os.path.join(BASE_DIR, 'settings.ini'))
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config.get('deploy', 'SECRET_KEY')
 SECRET_KEY = 'c!l2xa@g936mf@=+nla^y%eqxl*kc8mrz0561=vv-9bs2%&#*d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if config.get('deploy', 'DEBUG') == "True":
+    DEBUG = True
+elif config.get('deploy', 'DEBUG') == "False":
+    DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config.get('deploy', 'ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -103,15 +110,19 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+# 한국 설정
+LANGUAGE_CODE = config.get('language', 'LANGUAGE_CODE')
+TIME_ZONE = config.get('language', 'TIME_ZONE')
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+## 템플릿 파일 설정
+TEMPLATES_DIRS = [os.path.join(BASE_DIR, 'templates')]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 # Static files (CSS, JavaScript, Images)
