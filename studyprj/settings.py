@@ -24,7 +24,7 @@ config.read(os.path.join(BASE_DIR, 'settings.ini'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.get('deploy', 'SECRET_KEY')
-SECRET_KEY = 'c!l2xa@g936mf@=+nla^y%eqxl*kc8mrz0561=vv-9bs2%&#*d'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if config.get('deploy', 'DEBUG') == "True":
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'studyprj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config.get('db', 'ENGINE'),
+        'NAME': config.get('db', 'NAME'),
+        'USER': config.get('db', 'USER'),
+        'PASSWORD': config.get('db', 'PASSWORD'),
+        'HOST': config.get('db', 'HOST'),
+        'POST': config.get('db', 'POST'),
     }
 }
 
